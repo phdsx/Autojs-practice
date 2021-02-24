@@ -1,15 +1,26 @@
-function dianji(keyword){
-    text(keyword).waitFor();
-    click(text(keyword).findOne().bounds().centerX(),text(keyword).findOne().bounds().centerY());
+function count_num(){
+    var status=true;
+    while(status){
+        var name_list =id("item_blacklist_sign").className("android.widget.TextView").find();
+        var black_list=new Array();
+        var days_list=id("item_blacklist_time").className("android.widget.TextView").find();
+        var last_text=black_list[-1]
+        for(var i=0;i<days_list.length;i++){
+            var temp_text=name_list[i].text().toString()+days_list[i].text().toString();
+            black_list.push(temp_text);
+        };
+        swipe(500,2070,400,400,1500);
+        if(last_text==black_list[-1]){
+            status=false;
+        }
+    };
+    return black_list
 }
 
-function count(){
-    
-    var a=textContains("个瞬间").find();
-    for(var i=0;i<a.length-1;i++){
-        log(a[i].text())
-    }
-    swipe(650,2175,650,310,1500)
+function dianji(keyword){
+    text(keyword).waitFor();
+    var pos=text(keyword).findOne();
+    click(pos.centerX,pos.centerY);
 }
 
 auto();
@@ -26,4 +37,6 @@ dianji("隐私");
 sleep(500);
 dianji("黑名单");
 sleep(500);
+var blacklist=count_num();
+log("黑名单数量为："+blacklist.length)
 
